@@ -7,15 +7,15 @@ import math
 
 
 # polar
-def find_polar_x_change(z_rotation, up_down_rotation):
+def find_polar_x_change(z_rotation):
     return round(math.sin(math.radians(z_rotation)), ndigits=4) * camera_x_y_magnitude
 
 
-def find_polar_y_change(z_rotation, up_down_rotation):
+def find_polar_y_change(z_rotation):
     return round(math.cos(math.radians(z_rotation)), ndigits=4) * camera_x_y_magnitude
 
 
-def find_polar_z_change(z_rotation, up_down_rotation):
+def find_polar_z_change(up_down_rotation):
     return round(math.sin(math.radians(up_down_rotation)), ndigits=4) * camera_y_z_magnitude
 
 
@@ -24,22 +24,14 @@ def polar_vector():
     global camera_x_change
     global camera_y_change
     global camera_z_change
-    camera_x_change = find_polar_x_change(z_rotation, x_rotation)
-    camera_y_change = find_polar_y_change(z_rotation, x_rotation)
-    camera_z_change = find_polar_z_change(z_rotation, x_rotation)
+    camera_x_change = find_polar_x_change(z_rotation)
+    camera_y_change = find_polar_y_change(z_rotation)
+    camera_z_change = find_polar_z_change(x_rotation)
 
 
 # cartesian
-def find_cartesian_x_change(x, y, z):
-    return x-camera_x  # - x  # if self.x_orgin > x else x - self.x_orgin
-
-
-def find_cartesian_y_change(x, y, z):
-    return y-camera_y  # - y  # if self.y_orgin > y else y - self.y_orgin
-
-
-def find_cartesian_z_change(x, y, z):
-    return z-camera_z  # - z  # if self.z_orgin > z else z - self.z_orgin
+def find_cartesian_change(point):
+    return point-camera_x
 
 
 # return the vector
@@ -47,33 +39,35 @@ def cartesian_vector(x, y, z):
     global point_x_change
     global point_y_change
     global point_z_change
-    point_x_change = find_cartesian_x_change(x, y, z)
-    point_y_change = find_cartesian_y_change(x, y, z)
-    point_z_change = find_cartesian_z_change(x, y, z)
+    point_x_change = find_cartesian_change(x)
+    point_y_change = find_cartesian_change(y)
+    point_z_change = find_cartesian_change(z)
 
 
 # find the angle between the two vectors
 def find_z_angle():
-    dot_product = camera_x_change * \
-        point_x_change + camera_y_change * point_y_change
-    magnitude_product = math.sqrt(
-        camera_x_change ** 2 + camera_y_change ** 2) * math.sqrt(point_x_change ** 2 + point_y_change ** 2)
+    dot_product = \
+        camera_x_change * point_x_change + camera_y_change * point_y_change
+    magnitude_product = \
+        math.sqrt(camera_x_change ** 2 + camera_y_change ** 2) * \
+        math.sqrt(point_x_change ** 2 + point_y_change ** 2)
     global z_angle
-    z_angle = round(math.degrees(
-        math.acos((dot_product)/(magnitude_product))), ndigits=4)
+    z_angle = \
+        round(math.degrees(math.acos((dot_product)/(magnitude_product))), ndigits=4)
     # this make it sign sensitive so that it can tell if the angle is positive or negative
     z_angle *= ((camera_x_change * 1.2 + 1) / abs((camera_x_change * 1.2 + 1))
                 ) * ((point_x_change * 1.2 + 1) / abs((point_x_change * 1.2 + 1)))
 
 
 def find_x_angle():
-    dot_product = camera_z_change * \
-        point_z_change + camera_y_change * point_y_change
-    magnitude_product = math.sqrt(
-        camera_z_change ** 2 + camera_y_change ** 2) * math.sqrt(point_z_change ** 2 + point_y_change ** 2)
+    dot_product = \
+        camera_z_change * point_z_change + camera_y_change * point_y_change
+    magnitude_product = \
+        math.sqrt(camera_z_change ** 2 + camera_y_change ** 2) * \
+        math.sqrt(point_z_change ** 2 + point_y_change ** 2)
     global x_angle
-    x_angle = round(math.degrees(
-        math.acos((dot_product) / (magnitude_product))), ndigits=4)
+    x_angle = \
+        round(math.degrees(math.acos((dot_product) / (magnitude_product))), ndigits=4)
     # this make it sign sensitive so that it can tell if the angle is positive or negative
     x_angle *= ((camera_z_change * 1.2 + 1) / abs((camera_z_change * 1.2 + 1))
                 ) * (point_z_change * 1.2 + 1) / abs((point_z_change * 1.2 + 1))
