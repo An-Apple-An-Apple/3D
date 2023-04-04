@@ -1,7 +1,7 @@
 # https://www.geogebra.org/calculator/ghwysc7z Geogebra representation
 # I know the documentations are horrible, working on it...
 # Gavin 2022
-# This version is made scratch-friendly with more hard coded variables designed for 3d rasterization
+# This version is made scratch-friendly with more hard coded variables but easier to implement in scratch
 
 import math
 
