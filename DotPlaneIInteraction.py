@@ -1,6 +1,5 @@
 # https://www.geogebra.org/calculator/ghwysc7z Geogebra representation
 # I know the documentations are horrible, working on it...
-# This code right know
 # Gavin 2022
 
 import math
